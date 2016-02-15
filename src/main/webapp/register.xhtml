@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+        
+        <ui:composition template="./templates/clientTemplate.xhtml">
+            <ui:define name="title">Register</ui:define>
+            
+            <ui:define name="content">
+                <h:form>
+                    
+                    <h:panelGrid columns="3"  cellpadding="5" style="padding: 30px">
+                        <p:outputLabel value="Family name:" for="family_name" />
+                        <p:inputText id="family_name" placeholder="Your family name" />
+                        <p:messages for="family_name" />
+                        
+                        <p:outputLabel value="First name:" for="first_name" />
+                        <p:inputText id="first_name" placeholder="first name" />
+                        <p:messages for="first_name" />
+                        
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" placeholder="Email" />
+                        <p:messages for="email" />
+                        
+                        <p:outputLabel value="Password:" for="password" />
+                        <p:password id="password" match="confirm" placeholder="Password" promptLabel="Password strength"
+                                        weakLabel="Weak" goodLabel="Good" strongLabel="Strong" feedback= "true"/>
+                        <p:messages for="password" />
+                        
+                        <p:outputLabel value="Confirm password:" for="confirm" />
+                        <p:password id="confirm" placeholder="confirm password"/>
+                        <p:messages for="confirm" />
+                        
+                        <p:outputLabel value="Subscribe to the newsletter" for="newsletter" />
+                        <p:selectBooleanCheckbox id="newsletter" />
+                        <p:messages for="newsletter" />
+                        
+                        <p:outputLabel value="accept the term of use" for="term_of_use" />
+                        <p:selectBooleanCheckbox id="term_of_use" />
+                        <p:messages for="term_of_use" />
+                        
+                        <p:outputLabel value="confirm that you are not a robot" for="captcha" />
+                        <p:captcha id="captcha" />
+                        <p:messages for="captcha" />
+                        
+                        <p:commandButton value="Register" />
+                        
+                    </h:panelGrid>
+                    
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

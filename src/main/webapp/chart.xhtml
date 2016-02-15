@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./templates/clientTemplate.xhtml">
+
+            <ui:define name="title">
+                Virtual chart
+            </ui:define>
+
+            <ui:define name="content">
+                <c:forEach begin="1" end="3">
+                   
+                    
+                    <p:panel id="basic" header="Book title" footer="Book Details" style="margin-bottom:20px">
+                        <h:panelGrid columns="3" style="width:100%;height: 100%" columnClasses="logo,detail">
+                            <img src="images/agatha.jpg" alt="" width="100"/>
+                            <p:outputPanel style="padding: 20px">
+                                <h:outputText value="description" />
+                                <h:outputText value=" and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids " />
+                            </p:outputPanel>
+                            <p:outputPanel class="purchas">
+                                <h:outputText value="Price = 20$"/><br />
+                                <h:outputText value="items nbr"/>
+                                <p:spinner value="10" />
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:panel>
+                </c:forEach>
+                
+                <h1 style="display: inline-block">Total = 30$</h1>
+                <p:commandButton style="display: inline-block; left: 60px" value="Pass a command" />
+                
+            </ui:define>
+
+            <ui:define name="addLayoutUnit">
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

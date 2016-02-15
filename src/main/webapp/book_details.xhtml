@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./templates/clientTemplate.xhtml">
+
+            <ui:define name="title">
+                book details
+            </ui:define>
+
+            <ui:define name="content">
+                <style>
+                    .label{
+                        font-weight: bold;
+                    }
+                </style>
+
+                <p:breadCrumb>
+                    
+                    <p:menuitem value="books" url="#" />
+                    <p:menuitem value="Books" url="#" />
+                    <p:menuitem value="Novel" url="#" />
+                    <p:menuitem value="Mistery" url="#" />
+                    <p:menuitem value="All the light we cannot see" url="#" />
+                    
+                </p:breadCrumb>
+                <p:panelGrid columns="2">
+                    <p:outputPanel>
+                        <p:graphicImage name="images/books/book3.jpg" style="width: 300px"/><br/>
+                        Rate this book <p:rating value="4" style="display: inline-block; margin-left: 50px"/><br/>
+                        <p:button value="Add to chart" icon="ui-icon-star">
+                        </p:button>
+                    </p:outputPanel>
+                    <p:outputPanel>
+                        <h2 class="ui-widget-header ui-corner-all">Title : All the light we cannot see</h2>
+                        <p:separator />
+                        <p:spacer />
+
+
+                        <h3>author(s):</h3>
+                        <p>Anthony Doerr</p>
+
+                        <h3>Edition:</h3>
+                        <p>sqdjklllq Doerr</p>
+
+                        <h3>Tags:</h3>
+                        <p>Anthony Doerr</p>
+
+                        <h3>About the book</h3>
+                        <p>WINNER OF THE PULITZER PRIZE
+                            From the highly acclaimed, multiple award-winning Anthony Doerr, the beautiful, stunningly ambitious instant New York Times bestseller about a blind French girl and a German boy whose paths collide in occupied France as both try to survive the devastation of World War II.
+                        </p>
+                        <p>Marie-Laure lives with her father in Paris near the Museum of Natural History, where he works as the master of its thousands of locks. When she is six, Marie-Laure goes blind and her father builds a perfect miniature of their neighborhood so she can memorize it by touch and navigate her way home. When she is twelve, the Nazis occupy Paris and father and daughter flee to the walled citadel of Saint-Malo, where Marie-Laure’s reclusive great-uncle lives in a tall house by the sea. With them they carry what might be the museum’s most valuable and dangerous jewel.
+                        </p>
+                    </p:outputPanel>
+
+
+                </p:panelGrid>
+                <h2 class="ui-widget-header ui-corner-all">Comments</h2>
+                <p:panelGrid >
+                    <p:row>
+                        <p:column>
+                            <p:graphicImage name="images/avatars/avatar1.png" style="width: 120px"/>
+                        </p:column>
+                        <p:column style="width: 100%" >
+                            <p:inputTextarea style="width: 100%" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:graphicImage name="images/avatars/avatar1.png" style="width: 120px"/>
+                        </p:column>
+                        <p:column style="width: 100%" >
+                            <p> six, Marie-Laure goes blind and her father builds a perfect miniature of their neighborhood so she can memorize it by touch and navigate her way home. When she is twelve, the Nazis occupy Paris and father and daughter flee to the walled citadel of Saint-Malo, where Marie-Laure’s reclusive great-uncle lives in a tall house by the sea. With them they carry what might be the museum’s most valuable and dangerous jewel.
+                                six, Marie-Laure goes blind and her father builds a perfect miniature of their neighborhood so she can memorize it by touch and navigate her way home. When she is twelve, the Nazis occupy Paris and father and daughter flee to the walled citadel of Saint-Malo, where Marie-Laure’s reclusive great-uncle lives in a tall house by the sea. With them they carry what might be the museum’s most valuable and dangerous jewel.</p>
+                        </p:column>
+                    </p:row>
+
+                    <c:forEach begin="1" end="5">
+                        <p:row>
+                            <p:column>
+                                <p:graphicImage name="images/avatars/avatar1.png" style="width: 120px"/>
+                            </p:column>
+                            <p:column style="width: 100%" >
+                                <p>another comment hear ...</p>
+                            </p:column>
+                        </p:row>
+                    </c:forEach>
+
+                </p:panelGrid>
+            </ui:define>
+
+            <ui:define name="addLayoutUnit">
+
+                <p:layoutUnit position="east" size="200">
+
+                    <h3 class="ui-widget-header ui-corner-all">By the same author</h3>
+
+                    <div style="width: 125px; margin: auto">
+                        <p:imageSwitch effect="fade" widgetVar="switcher" id="manuelSwitcher"
+                                       slideshowAuto="true">
+                            <ui:repeat value="#{home.images}" var="image" id="manuelSwitcherImages">
+                                <p:graphicImage name="images/books/#{image}" id="image" style="width: 120px"/>
+                            </ui:repeat>
+                        </p:imageSwitch>
+
+                        <p:commandButton type="button" onclick="PF('switcher').previous();"
+                                         icon="ui-icon-circle-triangle-w" id="prev"/>
+                        <p:commandButton style="float: right" type="button" onclick="PF('switcher').next();"
+                                         icon="ui-icon-circle-triangle-e" id="next"/>
+
+                    </div>
+
+                    <h3 class="ui-widget-header ui-corner-all">Related tags</h3>
+                </p:layoutUnit>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

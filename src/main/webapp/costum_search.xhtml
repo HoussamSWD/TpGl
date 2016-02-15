@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./templates/clientTemplate.xhtml">
+
+            <ui:define name="title">
+                Costume search
+            </ui:define>
+            
+            
+            <ui:define  name="content">
+                <p:panelGrid id="search_form" columns="4" style="padding: 30px; z-index: 80">
+                    <p:outputLabel  for="title" value="Title"/>
+                    <p:inputText placeholder="Title" id="title"/>
+                    
+                    <p:outputLabel for="author" value="Author"/>
+                    <p:inputText placeholder="Author" id="author"/>
+                    
+                    <p:outputLabel for="Editor" value="Editor"/>
+                    <p:inputText placeholder="Editor" id="Editor"/>
+                    
+                    <p:outputLabel for="language" value="language"/>
+                    <p:selectOneMenu id="language" >
+                        <f:selectItem itemLabel="Arabic" />
+                        <f:selectItem itemLabel="English" />
+                        <f:selectItem itemLabel="French" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                
+                <p:sticky target="search_form" margin="300"/>
+                
+                <c:forEach begin="1" end="10">
+                   
+                    
+                    <p:panel id="basic" header="Book title" footer="Book Details" style="margin-bottom:20px">
+                        <h:panelGrid columns="3" style="width:100%;height: 100%" columnClasses="logo,detail">
+                            <img src="images/agatha.jpg" alt="" width="100"/>
+                            <p:outputPanel style="padding: 20px">
+                                <h:outputText value="description" />
+                                <h:outputText value=" and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids " />
+                            </p:outputPanel>
+                            <p:outputPanel class="purchas">
+                                <h:outputText value="Price = 20$"/>
+                                <p:button value="Add to chart" icon="ui-icon-star">
+                                </p:button>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:panel>
+                    
+                    
+                </c:forEach>
+            </ui:define>
+            
+            
+            
+            <ui:define name="addLayoutUnit">
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
