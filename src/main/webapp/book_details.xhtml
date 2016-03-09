@@ -22,13 +22,13 @@
                 </style>
 
                 <p:breadCrumb>
-                    
+
                     <p:menuitem value="books" url="#" />
                     <p:menuitem value="Books" url="#" />
                     <p:menuitem value="Novel" url="#" />
                     <p:menuitem value="Mistery" url="#" />
                     <p:menuitem value="All the light we cannot see" url="#" />
-                    
+
                 </p:breadCrumb>
                 <p:panelGrid columns="2">
                     <p:outputPanel>
@@ -63,7 +63,9 @@
 
                 </p:panelGrid>
                 <h2 class="ui-widget-header ui-corner-all">Comments</h2>
+                
                 <p:panelGrid >
+                    <!--
                     <p:row>
                         <p:column>
                             <p:graphicImage name="images/avatars/avatar1.png" style="width: 120px"/>
@@ -82,7 +84,7 @@
                                 six, Marie-Laure goes blind and her father builds a perfect miniature of their neighborhood so she can memorize it by touch and navigate her way home. When she is twelve, the Nazis occupy Paris and father and daughter flee to the walled citadel of Saint-Malo, where Marie-Laure’s reclusive great-uncle lives in a tall house by the sea. With them they carry what might be the museum’s most valuable and dangerous jewel.</p>
                         </p:column>
                     </p:row>
-
+                    
                     <c:forEach begin="1" end="5">
                         <p:row>
                             <p:column>
@@ -92,7 +94,31 @@
                                 <p>another comment hear ...</p>
                             </p:column>
                         </p:row>
-                    </c:forEach>
+                    </c:forEach>-->
+
+                    <!-- this isthe comment section-->
+                    <div id="disqus_thread"></div>
+                    <script>
+                        /**
+                         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+                         */
+                        /*
+                         var disqus_config = function () {
+                         this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                         this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                         };
+                         */
+                        (function () {  // DON'T EDIT BELOW THIS LINE
+                            var d = document, s = d.createElement('script');
+
+                            s.src = '//malibrery.disqus.com/embed.js';
+
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
                 </p:panelGrid>
             </ui:define>

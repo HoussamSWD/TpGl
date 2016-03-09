@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./templates/ServiceClientTemplate.xhtml">
+
+            <ui:define name="title">
+                title
+            </ui:define>
+
+            <ui:define name="content">
+                <p:dataTable var="car" value=""
+                             paginator="true"
+                             rows="10"
+                             paginatorTemplate="{CurrentPageReport}  
+                                                {FirstPageLink} 
+                                                {PreviousPageLink} 
+                                                {PageLinks} {NextPageLink} 
+                                                {LastPageLink} 
+                                                {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             >
+                    <p:column headerText="Command Id">
+                        <h:outputText value="id" />
+                    </p:column>
+
+                    <p:column headerText="Command date">
+                        <h:outputText value="date" />
+                    </p:column>
+
+                    <p:column headerText="command destination">
+                        <h:outputText value="destination" />
+                    </p:column>
+
+                    <p:column headerText="validate">
+                        <p:button value="validate" />
+                    </p:column>
+                </p:dataTable>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
