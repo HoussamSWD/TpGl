@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./templates/BooksellerTemplate.xhtml">
+
+            <ui:define name="title">
+                Add new books
+            </ui:define>
+
+            <ui:define name="content">
+                <h2 class="ui-widget-header ui-corner-all">Add a book</h2>
+
+                <h:panelGrid columns="3" style="padding: 30px">
+                    <p:outputLabel value="book title" for="title" />
+                    <p:inputText id="title" placeholder="the title of the book" />
+                    <p:messages for="title" />
+
+                    <p:outputLabel value="Editor" for="editor" />
+                    <p:selectOneMenu id="editor"/> 
+                    <p:messages for="title" />
+
+                    <p:outputLabel value="Language" for="language" />
+                    <p:selectOneMenu id="language"/>
+                    <p:messages for="language" />
+
+                    <p:outputLabel value="writing date" for="date" />
+                    <p:calendar id="date" />
+                    <p:messages for="date" />
+                    
+                    <p:outputLabel value="Amount" for="amount" />
+                    <p:spinner id="amount" value="" prefix="" min="0" />
+                    <p:messages for="date" />
+
+                    <p:outputLabel value="Price" for="price" />
+                    <p:spinner id="price" prefix="$ " />
+                    <p:messages for="price" />
+
+                    <p:outputLabel value="Tags" for="tags" />
+                    <p:autoComplete id="tags" multiple="tags"></p:autoComplete>
+                    <p:messages for="tags" />
+
+                    <p:outputLabel value="Cover" for="cover" />
+                    <p:fileUpload id="cover" value="" mode="simple" skinSimple="true"/>
+                    <p:messages for="cover" />
+                    
+                    <p:commandButton value="Add the book"/>
+                </h:panelGrid>
+
+                <h2 class="ui-widget-header ui-corner-all">list of existing books</h2>
+
+                <p:dataTable var="car" value="" paginator="true" rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" selectionMode="single" selection="" id="carTable" lazy="true">
+                    
+                    <p:column headerText="Id" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                    <p:column headerText="title" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                    <p:column headerText="Editor" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                    <p:column headerText="Language" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                    <p:column headerText="Date" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                    <p:column headerText="price" sortBy="" filterBy="">
+                        <h:outputText value="test" />
+                    </p:column>
+                </p:dataTable>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

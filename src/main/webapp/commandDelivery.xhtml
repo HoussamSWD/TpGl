@@ -10,11 +10,11 @@
         <ui:composition template="./templates/ServiceClientTemplate.xhtml">
 
             <ui:define name="title">
-                title
+                command delivery
             </ui:define>
 
             <ui:define name="content">
-                <p:dataTable var="car" value=""
+                <p:dataTable value=""
                              paginator="true"
                              rows="10"
                              paginatorTemplate="{CurrentPageReport}  
@@ -31,6 +31,9 @@
 
                     <p:column headerText="Command date">
                         <h:outputText value="date" />
+                    </p:column>
+                    <p:column headerText="Command items">
+                        <h:outputText value="items" />
                     </p:column>
 
                     <p:column headerText="command destination">
