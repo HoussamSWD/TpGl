@@ -8,8 +8,11 @@ package com.ashurbanipal.view;
 import com.ashurbanipal.controllers.CatalogueController;
 import com.ashurbanipal.entities.Author;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import static org.primefaces.behavior.confirm.ConfirmBehavior.PropertyKeys.message;
 
 /**
  *
@@ -25,7 +28,7 @@ public class AddAuthor {
     
     String familyName;
     String firstName;
-    String biography;
+    String biography = "";
     
     @EJB
     CatalogueController catalogueController;
@@ -57,13 +60,27 @@ public class AddAuthor {
         this.biography = biography;
     }
     
-    public void creatNewBook(){
+    public void creatNewBook() throws Exception{
         System.err.println("************ the new value"+this.familyName);
+        
+        //create an author and fill it 
         Author a = new Author();
         a.setFamilyName(familyName);
         a.setFirstName(firstName);
         a.setBiography(biography);
-        catalogueController.creatAuthor(a);
+        
+        //initiate the context to output a messeg
+        FacesContext context = FacesContext.getCurrentInstance();
+        try{
+            catalogueController.creatAuthor(a);
+        }catch(Exception e){
+            context.addMessage("family_name" , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",  e.getMessage()) );
+            return;
+        }
+        
+        //if every thing is good we show a success message
+        context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_INFO,"Successful",  "The author" + firstName + "is created") );
+        
     }
     
     

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
 
@@ -15,26 +16,39 @@
 
             <ui:define name="content">
                 <h2 class="ui-widget-header ui-corner-all">Add a book</h2>
-                
+
                 <h:form>
-                <h:panelGrid columns="3" style="padding: 30px">
-                    <p:outputLabel value="Family name" for="family_name" />
-                    <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.familyName}"/>
-                    <p:message for="family_name"/>
-                    
-                    <p:outputLabel value="First Name" for="first_name" />
-                    <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.firstName}"/>
-                    <p:message for="first_name" />
-                    
-                    <p:outputLabel value="Biography" for="biography" />
-                    <p:editor id="biography" widgetVar="editorWidget" 
-                              value="#{addAuthor.biography}" width="600" />
-                    <p:message for="biography" />
-                    
-                    <p:commandButton value="submit" action="#{addAuthor.creatNewBook()}"/>
-                </h:panelGrid>
+                    <h:panelGrid id="grid" columns="3" style="padding: 30px">
+                        <p:outputLabel value="Family name" for="family_name" />
+                        <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.familyName}">
+                            <f:validateLength minimum="3" maximum="100" />
+                            <p:clientValidator />
+                        </p:inputText>
+                        <p:message for="family_name"/>
+
+                        <p:outputLabel value="First Name" for="first_name" />
+                        <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.firstName}">
+                            <f:validateLength minimum="4" maximum="100" />
+                        </p:inputText>
+                        <p:message for="first_name" />
+
+                        <p:outputLabel value="Biography" for="biography" />
+                        <p:editor id="biography" widgetVar="editorWidget" 
+                                  value="#{addAuthor.biography}"  width="600" />
+                        <p:message for="biography" />
+
+                        <p:commandButton icon="ui-icon-check" value="submit" actionListener="#{addAuthor.creatNewBook()}" update="grid" validateClient="true"/>
+                        <p:growl id="opperation" showDetail="true" />
+                        
+                    </h:panelGrid>
                 </h:form>
-                
+
+                <script type="text/javascript">
+                    editorWidget.cleat();
+                    
+                    
+                </script>
+
             </ui:define>
 
         </ui:composition>

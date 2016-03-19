@@ -6,9 +6,12 @@
 package com.ashurbanipal.controllers;
 
 import com.ashurbanipal.entities.Author;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -23,7 +26,24 @@ public class CatalogueController {
     @PersistenceContext(unitName = "com.mycompany_TPGL_war_1.0-SNAPSHOTPU")
     EntityManager em;
     
-    public void creatAuthor(Author author){
+    /**
+     *
+     * @param author
+     * @throws Exception
+     */
+    public void creatAuthor(Author author) throws Exception{
+        
+        //search if this author alrady exist
+        TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a WHERE a.familyName = :familyName and a.firstName = :firstName",Author.class);
+        query.setParameter("familyName", author.getFamilyName());
+        query.setParameter("firstName", author.getFirstName());
+        
+        System.err.println("*************no pb hnaaaaaaaaaaaaaa");
+        List<Author> authors = query.getResultList();
+        //if it exist throw an exeption
+        if(authors.size() > 0)throw new Exception("This author alrady exist");
+        
+        // if it don't exist then create it 
         em.persist(author);
     }
 }
