@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,13 +45,13 @@ public class Command implements Serializable {
     private Date commandDate;
     @JoinColumn(name = "address_id", referencedColumnName = "adress_id")
     @ManyToOne
-    private Adress addressId;
+    private Adress address;
     @JoinColumn(name = "cart_id", referencedColumnName = "cart_id")
-    @ManyToOne
-    private Cart cartId;
+    @OneToOne
+    private Cart cart;
     @JoinColumn(name = "user_id", referencedColumnName = "email")
     @ManyToOne
-    private User userId;
+    private User user;
 
     public Command() {
     }
@@ -75,28 +76,28 @@ public class Command implements Serializable {
         this.commandDate = commandDate;
     }
 
-    public Adress getAddressId() {
-        return addressId;
+    public Adress getAddress() {
+        return address;
     }
 
-    public void setAddressId(Adress addressId) {
-        this.addressId = addressId;
+    public void setAddress(Adress address) {
+        this.address = address;
     }
 
-    public Cart getCartId() {
-        return cartId;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCartId(Cart cartId) {
-        this.cartId = cartId;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

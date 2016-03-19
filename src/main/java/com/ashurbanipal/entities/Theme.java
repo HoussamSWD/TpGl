@@ -42,15 +42,15 @@ public class Theme implements Serializable {
     @Size(max = 100)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "themeId")
+    @OneToMany(mappedBy = "theme")
     private List<Bookshelf> bookshelfList;
-    @OneToMany(mappedBy = "themeId")
+    @OneToMany(mappedBy = "theme")
     private List<Book> bookList;
-    @OneToMany(mappedBy = "parentThemeId")
+    @OneToMany(mappedBy = "parentTheme")
     private List<Theme> themeList;
     @JoinColumn(name = "parent_theme_id", referencedColumnName = "theme_id")
     @ManyToOne
-    private Theme parentThemeId;
+    private Theme parentTheme;
 
     public Theme() {
     }
@@ -99,12 +99,12 @@ public class Theme implements Serializable {
         this.themeList = themeList;
     }
 
-    public Theme getParentThemeId() {
-        return parentThemeId;
+    public Theme getParentTheme() {
+        return parentTheme;
     }
 
-    public void setParentThemeId(Theme parentThemeId) {
-        this.parentThemeId = parentThemeId;
+    public void setParentTheme(Theme parentTheme) {
+        this.parentTheme = parentTheme;
     }
 
     @Override

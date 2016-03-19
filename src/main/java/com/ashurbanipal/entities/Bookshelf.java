@@ -44,8 +44,8 @@ public class Bookshelf implements Serializable {
     private String label;
     @JoinColumn(name = "theme_id", referencedColumnName = "theme_id")
     @ManyToOne
-    private Theme themeId;
-    @OneToMany(mappedBy = "bookshelfId")
+    private Theme theme;
+    @OneToMany(mappedBy = "bookshelf")
     private List<Book> bookList;
 
     public Bookshelf() {
@@ -71,12 +71,12 @@ public class Bookshelf implements Serializable {
         this.label = label;
     }
 
-    public Theme getThemeId() {
-        return themeId;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setThemeId(Theme themeId) {
-        this.themeId = themeId;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     public List<Book> getBookList() {

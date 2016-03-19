@@ -77,11 +77,11 @@ public class Book implements Serializable {
     private List<Author> authorList;
     @JoinColumn(name = "bookshelf_id", referencedColumnName = "bookshelf_id")
     @ManyToOne
-    private Bookshelf bookshelfId;
+    private Bookshelf bookshelf;
     @JoinColumn(name = "theme_id", referencedColumnName = "theme_id")
     @ManyToOne
-    private Theme themeId;
-    @OneToMany(mappedBy = "bookId")
+    private Theme theme;
+    @OneToMany(mappedBy = "book")
     private List<CartLine> cartLineList;
 
     public Book() {
@@ -163,20 +163,20 @@ public class Book implements Serializable {
         this.authorList = authorList;
     }
 
-    public Bookshelf getBookshelfId() {
-        return bookshelfId;
+    public Bookshelf getBookshelf() {
+        return bookshelf;
     }
 
-    public void setBookshelfId(Bookshelf bookshelfId) {
-        this.bookshelfId = bookshelfId;
+    public void setBookshelf(Bookshelf bookshelf) {
+        this.bookshelf = bookshelf;
     }
 
-    public Theme getThemeId() {
-        return themeId;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setThemeId(Theme themeId) {
-        this.themeId = themeId;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     public List<CartLine> getCartLineList() {

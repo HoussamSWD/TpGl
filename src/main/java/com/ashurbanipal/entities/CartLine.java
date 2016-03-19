@@ -40,10 +40,10 @@ public class CartLine implements Serializable {
     private Integer quantity;
     @JoinColumn(name = "cart_id", referencedColumnName = "cart_id")
     @ManyToOne
-    private Cart cartId;
+    private Cart cart;
     @JoinColumn(name = "book_id", referencedColumnName = "book_id")
     @ManyToOne
-    private Book bookId;
+    private Book book;
 
     public CartLine() {
     }
@@ -68,20 +68,20 @@ public class CartLine implements Serializable {
         this.quantity = quantity;
     }
 
-    public Cart getCartId() {
-        return cartId;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCartId(Cart cartId) {
-        this.cartId = cartId;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public Book getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(Book bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override

@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -37,7 +38,7 @@ import javax.validation.constraints.Size;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
@@ -58,14 +59,14 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "userList")
     private List<Permission> permissionList;
     @OneToMany(mappedBy = "userId")
-    private List<Adress> adressList;
+    private List<Adress> DeliveryAdressList;
     @JoinColumn(name = "groupe_id", referencedColumnName = "groupe_id")
     @ManyToOne
-    private Groupe groupeId;
+    private Groupe groupe;
     @JoinColumn(name = "address_id", referencedColumnName = "adress_id")
     @ManyToOne
-    private Adress addressId;
-    @OneToMany(mappedBy = "userId")
+    private Adress billingAdress;
+    @OneToMany(mappedBy = "user")
     private List<Command> commandList;
 
     public User() {
@@ -123,28 +124,28 @@ public class User implements Serializable {
         this.permissionList = permissionList;
     }
 
-    public List<Adress> getAdressList() {
-        return adressList;
+    public List<Adress> getDeliveryAdressList() {
+        return DeliveryAdressList;
     }
 
-    public void setAdressList(List<Adress> adressList) {
-        this.adressList = adressList;
+    public void setDeliveryAdressList(List<Adress> DeliveryAdressList) {
+        this.DeliveryAdressList = DeliveryAdressList;
     }
 
-    public Groupe getGroupeId() {
-        return groupeId;
+    public Groupe getGroupe() {
+        return groupe;
     }
 
-    public void setGroupeId(Groupe groupeId) {
-        this.groupeId = groupeId;
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
     }
 
-    public Adress getAddressId() {
-        return addressId;
+    public Adress getBillingAdress() {
+        return billingAdress;
     }
 
-    public void setAddressId(Adress addressId) {
-        this.addressId = addressId;
+    public void setBillingAdress(Adress billingAdress) {
+        this.billingAdress = billingAdress;
     }
 
     public List<Command> getCommandList() {

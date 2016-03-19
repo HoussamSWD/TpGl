@@ -53,9 +53,9 @@ public class Adress implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "email")
     @ManyToOne
     private User userId;
-    @OneToMany(mappedBy = "addressId")
+    @OneToMany(mappedBy = "billingAdress")
     private List<User> userList;
-    @OneToMany(mappedBy = "addressId")
+    @OneToMany(mappedBy = "address")
     private List<Command> commandList;
 
     public Adress() {

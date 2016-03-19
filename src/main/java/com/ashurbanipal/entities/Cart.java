@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -39,10 +40,10 @@ public class Cart implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total")
     private Float total;
-    @OneToMany(mappedBy = "cartId")
+    @OneToMany(mappedBy = "cart")
     private List<CartLine> cartLineList;
-    @OneToMany(mappedBy = "cartId")
-    private List<Command> commandList;
+    @OneToOne(mappedBy = "cart")
+    private Command command;
 
     public Cart() {
     }
@@ -75,13 +76,15 @@ public class Cart implements Serializable {
         this.cartLineList = cartLineList;
     }
 
-    public List<Command> getCommandList() {
-        return commandList;
+    public Command getCommand() {
+        return command;
     }
 
-    public void setCommandList(List<Command> commandList) {
-        this.commandList = commandList;
+    public void setCommand(Command command) {
+        this.command = command;
     }
+
+    
 
     @Override
     public int hashCode() {

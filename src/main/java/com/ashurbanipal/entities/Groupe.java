@@ -53,7 +53,7 @@ public class Groupe implements Serializable {
         @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")})
     @ManyToMany
     private List<Permission> permissionList;
-    @OneToMany(mappedBy = "groupeId")
+    @OneToMany(mappedBy = "groupe")
     private List<User> userList;
 
     public Groupe() {
