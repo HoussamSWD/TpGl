@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./templates/BooksellerTemplate.xhtml">
+
+            <ui:define name="title">
+                Add new author
+            </ui:define>
+
+            <ui:define name="content">
+                <h2 class="ui-widget-header ui-corner-all">Add a book</h2>
+                
+                <h:form>
+                <h:panelGrid columns="3" style="padding: 30px">
+                    <p:outputLabel value="Family name" for="family_name" />
+                    <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.familyName}"/>
+                    <p:message for="family_name"/>
+                    
+                    <p:outputLabel value="First Name" for="first_name" />
+                    <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.firstName}"/>
+                    <p:message for="first_name" />
+                    
+                    <p:outputLabel value="Biography" for="biography" />
+                    <p:editor id="biography" widgetVar="editorWidget" 
+                              value="#{addAuthor.biography}" width="600" />
+                    <p:message for="biography" />
+                    
+                    <p:commandButton value="submit" action="#{addAuthor.creatNewBook()}"/>
+                </h:panelGrid>
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
