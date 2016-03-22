@@ -7,6 +7,7 @@ package com.ashurbanipal.controllers;
 
 import com.ashurbanipal.entities.Author;
 import java.util.List;
+import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,9 +28,10 @@ public class CatalogueController {
     EntityManager em;
     
     /**
-     *
-     * @param author
-     * @throws Exception
+     * this function search in the db for author withe the same family and first
+     * name if thir is no such author it pesist it 
+     * @param author author to add to the data base 
+     * @throws Exception the author alrady exist 
      */
     public void creatAuthor(Author author) throws Exception{
         
@@ -45,5 +47,17 @@ public class CatalogueController {
         
         // if it don't exist then create it 
         em.persist(author);
+    }
+    
+    public void editAuthor(Author author){
+        em.merge(author);
+    }
+    
+    public void deleteAuthor(Author author) throws ObjectNotFoundException{
+        Author a = em.find(Author.class,author.getAuthorId() );
+        
+        if(a != null)
+            em.remove(a);
+        else throw new ObjectNotFoundException("Author to delete not found");
     }
 }

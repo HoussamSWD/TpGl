@@ -11,42 +11,115 @@
         <ui:composition template="./templates/BooksellerTemplate.xhtml">
 
             <ui:define name="title">
-                Add new author
+                Authors management
             </ui:define>
 
             <ui:define name="content">
-                <h2 class="ui-widget-header ui-corner-all">Add a book</h2>
+                <h2 class="ui-widget-header ui-corner-all">Authors management</h2>
+                
+                <!-- the creation dialogue _________________________________________________________________________-->
+                <p:dialog id="AuthorCreateDlg" widgetVar="AuthorCreateDialog" modal="false" resizable="false" header="addNewAuthor" >
+                    <h:form id="AuthorCreateForm">
+                        <h:panelGrid id="grid" columns="3" style="padding: 30px">
+                            <p:outputLabel value="Family name" for="family_name" />
+                            <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.selectedAuthor.familyName}">
+                                <f:validateLength minimum="3" maximum="100" />
+                                <p:clientValidator />
+                            </p:inputText>
+                            <p:message for="family_name"/>
 
-                <h:form>
-                    <h:panelGrid id="grid" columns="3" style="padding: 30px">
-                        <p:outputLabel value="Family name" for="family_name" />
-                        <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.familyName}">
-                            <f:validateLength minimum="3" maximum="100" />
-                            <p:clientValidator />
-                        </p:inputText>
-                        <p:message for="family_name"/>
+                            <p:outputLabel value="First Name" for="first_name" />
+                            <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.selectedAuthor.firstName}">
+                                <f:validateLength minimum="4" maximum="100" />
+                            </p:inputText>
+                            <p:message for="first_name" />
 
-                        <p:outputLabel value="First Name" for="first_name" />
-                        <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.firstName}">
-                            <f:validateLength minimum="4" maximum="100" />
-                        </p:inputText>
-                        <p:message for="first_name" />
+                            <p:outputLabel value="Biography" for="biography" />
+                            <p:editor id="biography" widgetVar="editorWidget" 
+                                      value="#{addAuthor.selectedAuthor.biography}"  width="600" />
+                            <p:message for="biography" />
 
-                        <p:outputLabel value="Biography" for="biography" />
-                        <p:editor id="biography" widgetVar="editorWidget" 
-                                  value="#{addAuthor.biography}"  width="600" />
-                        <p:message for="biography" />
+                            <p:commandButton icon="ui-icon-check" value="submit"  actionListener="#{addAuthor.creatNewBook()}" update="grid,AuthorListForm:authorTable" validateClient="true"/>
+                            <p:commandButton value="Cancel" onclick="PF('AuthorCreateDialog').hide()"/>
+                            <p:growl id="opperation" showDetail="true" />
 
-                        <p:commandButton icon="ui-icon-check" value="submit" actionListener="#{addAuthor.creatNewBook()}" update="grid" validateClient="true"/>
-                        <p:growl id="opperation" showDetail="true" />
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+                
+                
+                <!-- the Edit  dialogue _________________________________________________________________________-->
+                <p:dialog id="AuthorEditDlg" widgetVar="AuthorEditDialog" modal="false" resizable="false" header="Edit the author" >
+                    <h:form id="AuthorEditForm">
+                        <h:panelGrid id="editPanel" columns="3" style="padding: 30px">
+                            <p:outputLabel value="Family name" for="family_name" />
+                            <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.selectedAuthor.familyName}">
+                                <f:validateLength minimum="3" maximum="100" />
+                                <p:clientValidator />
+                            </p:inputText>
+                            <p:message for="family_name"/>
+
+                            <p:outputLabel value="First Name" for="first_name" />
+                            <p:inputText id="first_name" placeholder="first name" value="#{addAuthor.selectedAuthor.firstName}">
+                                <f:validateLength minimum="4" maximum="100" />
+                            </p:inputText>
+                            <p:message for="first_name" />
+
+                            <p:outputLabel value="Biography" for="biography" />
+                            <p:editor id="biography" widgetVar="editorWidget" 
+                                      value="#{addAuthor.selectedAuthor.biography}"  width="600" />
+                            <p:message for="biography" />
+
+                            <p:commandButton icon="ui-icon-check" value="Update" actionListener="#{addAuthor.editAuthor()}"  update="editPanel,AuthorListForm:authorTable" validateClient="true"/>
+                            <p:commandButton value="Cancel" onclick="PF('AuthorEditDialog').hide()"/>
+                            
+                            <p:growl id="opperation" showDetail="true" />
+
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+                <h:form id="AuthorListForm">
+                    <p:dataTable 
+                        widgetVar="authorsTable" id="authorTable" 
+                        value="#{addAuthor.autors}" var="author"  
+                        paginator="true" rows="14" 
+                        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                        rowsPerPageTemplate="15,30,40" selectionMode="single"   selection="#{addAuthor.selectedAuthor}"  lazy="true">
+                        <p:ajax event="rowSelect" listener="#{addAuthor.onRowSelect}" update="createButton editButton deleteButton"  />
+
+                        <f:facet name="header" >  
+                            <p:outputPanel style="float: right">  
+                                <h:outputText value="Filter " />  
+                                <p:inputText id="globalFilter" value="#{addAuthor.autors.globalFilter}" 
+                                             style="width:200px"  size="10" placeholder="fill and press tab">
+                                    <p:ajax event="change" update="authorTable"/>
+                                </p:inputText>
+                                <p:commandButton icon="fa-search-plus" value="GO" />
+                            </p:outputPanel>  
+                        </f:facet>  
+                        <p:column headerText="id" sortBy="#{author.authorId}">
+                            <h:outputText value="#{author.authorId}" />
+                        </p:column>
+                        <p:column headerText="First name" sortBy="#{author.familyName}">
+                            <h:outputText value="#{author.familyName}" />
+                        </p:column>
+                        <p:column headerText="Family name" sortBy="#{author.familyName}">
+                            <h:outputText value="#{author.firstName}" />
+                        </p:column>
                         
-                    </h:panelGrid>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Create" actionListener="#{addAuthor.preparCreate()}" update=":AuthorCreateForm" oncomplete="PF('AuthorCreateDialog').show()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Edit" update=":AuthorEditForm" oncomplete="PF('AuthorEditDialog').show()" disabled="#{empty addAuthor.selectedAuthor}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" value="Delete" actionListener="#{addAuthor.deleteAuthor()}" update="AuthorListForm" disabled="#{empty addAuthor.selectedAuthor}" />
+                        </f:facet>
+                    </p:dataTable>
                 </h:form>
 
                 <script type="text/javascript">
                     editorWidget.cleat();
-                    
-                    
+
+
                 </script>
 
             </ui:define>
