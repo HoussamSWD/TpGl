@@ -33,14 +33,7 @@ import org.primefaces.event.SelectEvent;
 @ViewScoped
 public class AddAuthor implements Serializable{
 
-    /**
-     * Creates a new instance of AddAuthor
-     */
-    
-//    String familyName;
-//    String firstName;
-//    String biography = "";
-    
+   
     Author selectedAuthor = null;
     String globalFilter;
     
@@ -58,10 +51,8 @@ public class AddAuthor implements Serializable{
     
     @PostConstruct
     public void init(){
-        System.out.println("******************************************** step 0");
-        this.autors = new LazyAuthorDataModel();
-        autors.setEm(em);
-        autors.setGlobalFilter(globalFilter);
+        
+        this.autors = catalogueController.setupLazyAhthorModel(globalFilter);
     }
 
     public String getGlobalFilter() {
@@ -81,30 +72,6 @@ public class AddAuthor implements Serializable{
         this.selectedAuthor = selectedAuthor;
     }
     
-    
-//    public String getFamilyName() {
-//        return familyName;
-//    }
-//
-//    public void setFamilyName(String familyName) {
-//        this.familyName = familyName;
-//    }
-//
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getBiography() {
-//        return biography;
-//    }
-//
-//    public void setBiography(String biography) {
-//        this.biography = biography;
-//    }
 
     public LazyAuthorDataModel getAutors() {
         return autors;
@@ -124,13 +91,6 @@ public class AddAuthor implements Serializable{
     }
     
     public void creatNewBook() throws Exception{
-//        System.err.println("************ the new value"+this.familyName);
-//        
-//        //create an author and fill it 
-//        Author a = new Author();
-//        a.setFamilyName(familyName);
-//        a.setFirstName(firstName);
-//        a.setBiography(biography);
         
         //initiate the context to output a messeg
         FacesContext context = FacesContext.getCurrentInstance();
