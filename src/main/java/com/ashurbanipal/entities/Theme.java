@@ -30,7 +30,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Theme.findAll", query = "SELECT t FROM Theme t"),
     @NamedQuery(name = "Theme.findByThemeId", query = "SELECT t FROM Theme t WHERE t.themeId = :themeId"),
-    @NamedQuery(name = "Theme.findByName", query = "SELECT t FROM Theme t WHERE t.name = :name")})
+    @NamedQuery(name = "Theme.findByName", query = "SELECT t FROM Theme t WHERE t.name = :name"),
+    @NamedQuery(name = "Theme.findByParent", query = "SELECT t FROM Theme t WHERE t.parentTheme = :parentTheme")
+})
 public class Theme implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,11 +6,14 @@
 package com.ashurbanipal.controllers;
 
 import com.ashurbanipal.entities.Author;
+import com.ashurbanipal.entities.Theme;
 import com.ashurbanipal.lazyModels.LazyAuthorDataModel;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -72,8 +75,12 @@ public class CatalogueController {
      * u can't modify the id
      * @param author the modified author
      */
-    public void editAuthor(Author author){
+    public void editAuthor(Author author) throws Exception{
+        try{
         em.merge(author);
+        }catch(Exception ex){
+            throw ex;
+        }
     }
     
     /**
@@ -89,4 +96,66 @@ public class CatalogueController {
         else throw new ObjectNotFoundException("Author to delete not found");
     }
     
+    /*
+     ontroleur pour gerer les themes 
+    */
+    
+    /**
+     * add new theme to the db if not already exist
+     * @param theme theme to add
+     * @throws Exception if the theme exist
+     */
+    public void createTheme(Theme theme) throws Exception{
+        TypedQuery<Theme> query = em.createNamedQuery("Theme.findByName",Theme.class);
+        query.setParameter("name", theme.getName());
+        List<Theme> existed =  query.getResultList();
+        if(!existed.isEmpty()) em.persist(theme);
+        else throw  new Exception("the theme alrady exist");
+        
+    }
+    
+    /**
+     * delete a theme from the db
+     * @param theme to delete
+     * @throws Exception if the theme not found
+     */
+    public void deleteTheme(Theme theme) throws Exception{
+        try {
+            em.remove(theme);
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+
+    /**
+     * update the theme 
+     * @param theme theme with the new values
+     * @throws Exception if something went wrong
+     */
+    public void editTheme(Theme theme) throws Exception{
+        try {
+            em.merge(theme);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    /**
+     * find the children of an existent theme 
+     * if the them is null return the roots(main) themes
+     * @param theme theme to get  children
+     * @return the children of a given theme
+     */
+    public List<Theme> getThemes(Theme theme){
+        
+        if(theme == null){
+            TypedQuery<Theme> query = em.createQuery("SELECT t from Theme t WHERE t.parentTheme IS NULL",Theme.class);
+            return query.getResultList();
+        }else{
+            TypedQuery<Theme> query = em.createNamedQuery("Theme.findByParent",Theme.class);
+            query.setParameter("parentTheme", theme);
+            return query.getResultList();
+        }
+    }
 }

@@ -77,9 +77,9 @@ public class LazyAuthorDataModel extends LazyDataModel<Author> {
         //if ther is any sorting we add where conditions
         if (sortField != null) {
             if (sortOrder.name().equals("ASCENDING")) {
-                cq.orderBy(cb.desc(form.get(sortField)));
-            } else {
                 cq.orderBy(cb.asc(form.get(sortField)));
+            } else {
+                cq.orderBy(cb.desc(form.get(sortField)));
             }
         }
         

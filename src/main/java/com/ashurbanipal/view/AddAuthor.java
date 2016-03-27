@@ -107,11 +107,16 @@ public class AddAuthor implements Serializable{
     }
     
     public void editAuthor(){
-        catalogueController.editAuthor(selectedAuthor);
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            catalogueController.editAuthor(selectedAuthor);
+        } catch (Exception ex) {
+            context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",  "The author " + selectedAuthor.getFirstName() + "can't be updated") );
+        }
         
         //if every thing is good we show a success message
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_INFO,"Successful",  "The author" + selectedAuthor.getFirstName() + "is updated") );
+       
+        context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_INFO,"Successful",  "The author " + selectedAuthor.getFirstName() + "is updated") );
         
     }
     
@@ -121,6 +126,7 @@ public class AddAuthor implements Serializable{
             catalogueController.deleteAuthor(selectedAuthor);
         } catch (ObjectNotFoundException ex) {
             context.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+            return;
         }
         //if every thing is good we show a success message
         

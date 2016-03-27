@@ -24,7 +24,7 @@
                             <p:outputLabel value="Family name" for="family_name" />
                             <p:inputText id="family_name" placeholder="family name" value="#{addAuthor.selectedAuthor.familyName}">
                                 <f:validateLength minimum="3" maximum="100" />
-                                <p:clientValidator />
+                                
                             </p:inputText>
                             <p:message for="family_name"/>
 
@@ -70,7 +70,7 @@
                                       value="#{addAuthor.selectedAuthor.biography}"  width="600" />
                             <p:message for="biography" />
 
-                            <p:commandButton icon="ui-icon-check" value="Update" actionListener="#{addAuthor.editAuthor()}"  update="editPanel,AuthorListForm:authorTable" validateClient="true"/>
+                            <p:commandButton icon="ui-icon-check" value="Update" actionListener="#{addAuthor.editAuthor()}" oncomplete="PF('AuthorEditDialog').hide()"  update="editPanel,AuthorListForm:authorTable" validateClient="true"/>
                             <p:commandButton value="Cancel" onclick="PF('AuthorEditDialog').hide()"/>
                             
                             <p:growl id="opperation" showDetail="true" />
