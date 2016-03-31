@@ -6,6 +6,7 @@
 package com.ashurbanipal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -72,9 +73,9 @@ public class Book implements Serializable {
         @JoinColumn(name = "book_id", referencedColumnName = "book_id")}, inverseJoinColumns = {
         @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")})
     @ManyToMany
-    private List<Tag> tagList;
+    private List<Tag> tagList = new ArrayList<Tag>();
     @ManyToMany(mappedBy = "bookList")
-    private List<Author> authorList;
+    private List<Author> authorList = new ArrayList<Author>();
     @JoinColumn(name = "bookshelf_id", referencedColumnName = "bookshelf_id")
     @ManyToOne
     private Bookshelf bookshelf;
@@ -82,7 +83,12 @@ public class Book implements Serializable {
     @ManyToOne
     private Theme theme;
     @OneToMany(mappedBy = "book")
-    private List<CartLine> cartLineList;
+    private List<CartLine> cartLineList = new ArrayList<CartLine>();
+    @JoinColumn(name = "editor_id", referencedColumnName = "editor_id")
+    @ManyToOne
+    private Editor editor;
+    
+    private int quantity ;
 
     public Book() {
     }
@@ -94,6 +100,15 @@ public class Book implements Serializable {
     public String getBookId() {
         return bookId;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
@@ -182,6 +197,16 @@ public class Book implements Serializable {
     public List<CartLine> getCartLineList() {
         return cartLineList;
     }
+
+    public Editor getEditor() {
+        return editor;
+    }
+
+    public void setEditor(Editor editor) {
+        this.editor = editor;
+    }
+    
+    
 
     public void setCartLineList(List<CartLine> cartLineList) {
         this.cartLineList = cartLineList;

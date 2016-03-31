@@ -6,6 +6,7 @@
 package com.ashurbanipal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -63,7 +64,7 @@ public class Author implements Serializable {
         @JoinColumn(name = "author_id", referencedColumnName = "author_id")}, inverseJoinColumns = {
         @JoinColumn(name = "book_id", referencedColumnName = "book_id")})
     @ManyToMany
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<Book>();
 
     public Author() {
     }

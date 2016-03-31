@@ -6,6 +6,7 @@
 package com.ashurbanipal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,7 +50,7 @@ public class Theme implements Serializable {
     @OneToMany(mappedBy = "theme")
     private List<Book> bookList;
     @OneToMany(mappedBy = "parentTheme")
-    private List<Theme> themeList;
+    private List<Theme> themeList = new ArrayList<Theme>();
     @JoinColumn(name = "parent_theme_id", referencedColumnName = "theme_id")
     @ManyToOne
     private Theme parentTheme;

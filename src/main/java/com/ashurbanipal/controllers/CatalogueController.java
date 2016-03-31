@@ -6,16 +6,14 @@
 package com.ashurbanipal.controllers;
 
 import com.ashurbanipal.entities.Author;
+import com.ashurbanipal.entities.Editor;
 import com.ashurbanipal.entities.Theme;
 import com.ashurbanipal.lazyModels.LazyAuthorDataModel;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -48,7 +46,7 @@ public class CatalogueController {
     
     /**
      * this function search in the db for author withe the same family and first
-     * name if thir is no such author it pesist it 
+     * name if thir is no such author it persist it 
      * @param author author to add to the data base 
      * @throws Exception the author alrady exist 
      */
@@ -106,10 +104,13 @@ public class CatalogueController {
      * @throws Exception if the theme exist
      */
     public void createTheme(Theme theme) throws Exception{
+        
+        System.out.println("*********** create theme  controller");
+        
         TypedQuery<Theme> query = em.createNamedQuery("Theme.findByName",Theme.class);
         query.setParameter("name", theme.getName());
         List<Theme> existed =  query.getResultList();
-        if(!existed.isEmpty()) em.persist(theme);
+        if(existed.isEmpty()) em.persist(theme);
         else throw  new Exception("the theme alrady exist");
         
     }
@@ -120,11 +121,16 @@ public class CatalogueController {
      * @throws Exception if the theme not found
      */
     public void deleteTheme(Theme theme) throws Exception{
-        try {
-            em.remove(theme);
+        Theme toDelete = em.find(Theme.class, theme.getThemeId());
+        if(toDelete != null){
+            try {
+            em.remove(toDelete);
         } catch (Exception e) {
             throw e;
         }
+        }else throw new Exception("the theme don't exist");
+        
+        
         
     }
 
@@ -142,7 +148,7 @@ public class CatalogueController {
     }
     
     /**
-     * find the children of an existent theme 
+     * find the children of an existent theme       
      * if the them is null return the roots(main) themes
      * @param theme theme to get  children
      * @return the children of a given theme
@@ -157,5 +163,37 @@ public class CatalogueController {
             query.setParameter("parentTheme", theme);
             return query.getResultList();
         }
+    }
+    
+    /**
+     * get all the themes in the data base
+     * @return
+     */
+    public List<Theme> getThemes(){
+        TypedQuery<Theme> query = em.createNamedQuery("Theme.findAll",Theme.class);
+        return query.getResultList();
+    }
+    
+    /*
+       Editors
+    */
+    
+    public List<Editor> getAllEditors(){  
+        TypedQuery<Editor> query = em.createNamedQuery("Editor.findAll", Editor.class);
+        return query.getResultList();
+    }
+    
+    public List<Editor> getFiltredEditors(String filter,int maxResult){
+        String s ="SELECT e FROM Editor e WHERE e.name LIKE '%"+filter+"%'";
+        System.out.println(s);
+        TypedQuery<Editor> query = em.createQuery(s,Editor.class);
+        //query.setParameter("filter", filter);
+        query.setMaxResults(maxResult);
+        return query.getResultList();
+    }
+    
+    public Editor findEditor(int id){
+        System.out.println("call of the data layer _______________________________");
+        return em.find(Editor.class,id);
     }
 }

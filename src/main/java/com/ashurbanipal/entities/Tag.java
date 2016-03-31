@@ -6,6 +6,7 @@
 package com.ashurbanipal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,7 +42,7 @@ public class Tag implements Serializable {
     @Column(name = "lable")
     private String lable;
     @ManyToMany(mappedBy = "tagList")
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<Book>();
 
     public Tag() {
     }

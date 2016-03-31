@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
 
@@ -13,11 +15,54 @@
             </ui:define>
 
             <ui:define name="content">
-                <p:mindmap value="#{themesManag.root}" style="width:100%;height:600px">
-                    <p:ajax event="select" listener="#{themesManag.onNodeSelect}" />
-                </p:mindmap>
-            </ui:define>
 
+                <!-- Mind map ______________________________________________________________________________-->
+                <h:form id="mindMapForm">
+                    <p:growl id="opperation" showDetail="true" />
+                    <p:mindmap value="#{themesManag.root}" style="width:60%;height:400px">
+                        <p:ajax event="select" listener="#{themesManag.onNodeSelect}" update="createButton deleteButton editButton" />
+                    </p:mindmap>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"  value="Create" 
+                                     actionListener="#{themesManag.prepareCreate()}" update=":createForm" oncomplete="PF('addDialogue').show()"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash" value="Delete" 
+                                     actionListener="#{themesManag.deleteTheme()}" update=":mindMapForm" disabled="#{empty themesManag.selectedTheme}" />
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Edit" update=":ThemeEditForm" 
+                                     oncomplete="PF('editDialogue').show()" disabled="#{empty themesManag.selectedTheme}"/>
+                </h:form>
+
+                <!-- add dialogue ____________________________________________________________________________-->
+                <p:dialog id="addDlg" widgetVar="addDialogue" modal="false" resizable="false" header="Add New theme">
+                    <h:form id="createForm">
+                        <h:panelGrid rendered="#{!empty themesManag.selectedTheme}" id="grid" columns="3" style="padding: 30px">
+                            <p:outputLabel value="Theme name" for="theme_name" />
+                            <p:inputText id="theme_name" placeholder="theme name" value="#{themesManag.selectedTheme.name}">
+                                <f:validateLength minimum="3" maximum="100" />
+                            </p:inputText>
+                            <p:message for="theme_name"/> 
+                        </h:panelGrid>
+                        <p:commandButton icon="ui-icon-check" value="submit"  actionListener="#{themesManag.createTheme()}" update=":mindMapForm" oncomplete="PF('addDialogue').hide()" />
+                        <p:commandButton value="Cancel" onclick="PF('addDialogue').hide()"/>
+                    </h:form>
+                </p:dialog>
+
+                <!-- update dialogue _____________________________________________________________________________-->
+                <p:dialog id="editDlg" widgetVar="editDialogue" modal="false" resizable="false" header="Edit theme">
+                    <h:form id="ThemeEditForm">
+                        <h:panelGrid rendered="#{!empty themesManag.selectedTheme}" id="grid" columns="3" style="padding: 30px">
+                            <p:outputLabel value="Theme name" for="theme_name" />
+                            <p:inputText id="theme_name" placeholder="theme name" value="#{themesManag.selectedTheme.name}">
+                                <f:validateLength minimum="3" maximum="100" />
+                            </p:inputText>
+                            <p:message for="theme_name"/> 
+                        </h:panelGrid>
+                        <p:commandButton icon="ui-icon-check" value="submit"  actionListener="#{themesManag.editTheme()}" update=":mindMapForm" oncomplete="PF('editDialogue').hide()" />
+                        <p:commandButton value="Cancel" onclick="PF('addDialogue').hide()"/>
+                    </h:form>
+                </p:dialog>
+                
+                
+                
+            </ui:define>
         </ui:composition>
 
     </body>
