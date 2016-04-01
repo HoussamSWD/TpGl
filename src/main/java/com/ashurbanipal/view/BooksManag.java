@@ -86,8 +86,8 @@ public class BooksManag implements Serializable{
     
 
     public void prepareNew() {
+        System.err.println("preparint the new add");
         selectedBook = new Book();
-        selectedBook.setEditor(new Editor());
 
     }
 
@@ -100,8 +100,8 @@ public class BooksManag implements Serializable{
         
         
         System.out.println(" ************** add book view ***************************");
-        if(selectedBook.getEditor() != null)
-        System.err.println("**********************************" + editor.getName());
+        if(selectedBook != null)System.err.println("the book is not null");
+        if(selectedBook.getEditor() != null)System.err.println("the editor is not null");
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             controller.addBook(selectedBook);

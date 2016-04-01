@@ -105,7 +105,7 @@ public class Editor implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.dependancytest.util.Editor[ editorId=" + editorId + " ]";
+        return "com.ashurbanipal.entities.Editor[ editorId=" + editorId + " ]";
     }
     
 }

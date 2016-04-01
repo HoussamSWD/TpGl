@@ -29,7 +29,7 @@
                             <p:messages for="title" />
 
                             <p:outputLabel value="Editor" for="editor" />
-                            <p:autoComplete value="#{booksManag.editor}" completeMethod="#{booksManag.complete}"
+                            <p:autoComplete value="#{booksManag.selectedBook.editor}" completeMethod="#{booksManag.complete}"
                                             var="ed" itemLabel="#{ed.name}" forceSelection="true"
                                             itemValue="#{ed}" converter="#{editorConverter}"
                                             id="editor" />

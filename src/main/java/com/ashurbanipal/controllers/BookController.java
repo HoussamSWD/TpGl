@@ -12,19 +12,21 @@ import com.ashurbanipal.lazyModels.LazyBookDataModel;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.ObjectNotFoundException;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 /**
  *
  * @author swd
  */
-@Stateless
+@Stateful
 public class BookController {
  
-    @PersistenceContext(unitName = "com.mycompany_TPGL_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName = "com.mycompany_TPGL_war_1.0-SNAPSHOTPU",type = PersistenceContextType.EXTENDED)
     EntityManager em ;
     
     @EJB
@@ -66,12 +68,14 @@ public class BookController {
             // Hooking the relation from both sides 
             
             System.err.println("****************************** the relations");
-            book.getEditor().getBookList().add(book);
-            
-            for (Author author : book.getAuthorList()) {
-                author.getBookList().add(book);                
-            }
+//            book.getEditor().getBookList().add(book);
+//            
+//            for (Author author : book.getAuthorList()) {
+//                author.getBookList().add(book);                
+//            }
             try {
+                System.err.println("****************************** the persist");
+               // em.merge(book.getEditor());
                 em.persist(book);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
