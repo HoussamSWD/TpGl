@@ -6,42 +6,38 @@
 package com.ashurbanipal.util.converters;
 
 import com.ashurbanipal.controllers.CatalogueController;
-import com.ashurbanipal.entities.Editor;
+import com.ashurbanipal.entities.Author;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author swd
  */
 
-@FacesConverter("editorConverter")
+@FacesConverter("authorConverter")
 @ManagedBean
-@RequestScoped
-public class EditorConverter implements Converter{
-    
+@SessionScoped
+public class AuthorConverter implements Converter{
+
     @EJB
     CatalogueController controller;
-    
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if(value != null && value.trim().length() > 0){
             try {
-                Editor editor= controller.findEditor(Integer.parseInt(value));
-                return editor;
+                return controller.findAuthor(Integer.parseInt(value));
             } catch (Exception e) {
-                System.err.println("Errror");
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid Editor name"));
+                System.err.println("Converter error");
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid Author"));
             }
         }
         return null;
@@ -49,7 +45,7 @@ public class EditorConverter implements Converter{
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if(value != null)return ((Editor) value).getEditorId().toString();
+        if(value != null) return ((Author) value).getAuthorId().toString();
         return null;
     }
     

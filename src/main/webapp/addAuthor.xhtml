@@ -85,7 +85,7 @@
                         value="#{addAuthor.autors}" var="author"  
                         paginator="true" rows="14" 
                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                        rowsPerPageTemplate="15,30,40" selectionMode="single"   selection="#{addAuthor.selectedAuthor}"  lazy="true">
+                        rowsPerPageTemplate="15,30,45" selectionMode="single"   selection="#{addAuthor.selectedAuthor}"  lazy="true">
                         <p:ajax event="rowSelect" listener="#{addAuthor.onRowSelect}" update="createButton editButton deleteButton"  />
 
                         <f:facet name="header" >  

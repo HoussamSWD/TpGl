@@ -70,12 +70,14 @@ public class BookController {
             System.err.println("****************************** the relations");
 //            book.getEditor().getBookList().add(book);
 //            
-//            for (Author author : book.getAuthorList()) {
-//                author.getBookList().add(book);                
-//            }
+            for (Author author : book.getAuthorList()) {
+                System.err.println("the relation from the other side");
+                author.getBookList().add(book);                
+            }
             try {
                 System.err.println("****************************** the persist");
                // em.merge(book.getEditor());
+               for(Author author : book.getAuthorList())em.merge(author);
                 em.persist(book);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
@@ -101,6 +103,10 @@ public class BookController {
     
     public List<Editor> getFiltredEditors(String filter,int maxResult){
         return catalogueController.getFiltredEditors(filter, maxResult);
+    }
+    
+    public List<Author> getFiltredAuthors(String filter, int maxResult){
+        return catalogueController.getFiltredAuthors(filter, maxResult);
     }
     
 }

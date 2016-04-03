@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -42,6 +43,15 @@ public class CatalogueController {
         authorsModel.setEm(this.em);
         authorsModel.setGlobalFilter(globalFilter);
         return authorsModel;
+    }
+    
+    /**
+     * get a single author frome the dataBase
+     * @param id the id of the author
+     * @return the author
+     */
+    public Author findAuthor(int id){
+        return em.find(Author.class, id);
     }
     
     /**
@@ -92,6 +102,14 @@ public class CatalogueController {
         if(a != null)
             em.remove(a);
         else throw new ObjectNotFoundException("Author to delete not found");
+    }
+    
+    public List<Author> getFiltredAuthors(String filter,int maxResult){
+        TypedQuery<Author> query = em.createQuery("SELECT a from Author a "
+                + "WHERE a.familyName like :filter "
+                + "or a.firstName like :filter",Author.class );
+        query.setParameter("filter", "%" + filter + "%");
+        return query.getResultList();
     }
     
     /*
@@ -178,22 +196,17 @@ public class CatalogueController {
        Editors
     */
     
-    public List<Editor> getAllEditors(){  
-        TypedQuery<Editor> query = em.createNamedQuery("Editor.findAll", Editor.class);
-        return query.getResultList();
-    }
+ 
     
     public List<Editor> getFiltredEditors(String filter,int maxResult){
-        String s ="SELECT e FROM Editor e WHERE e.name LIKE '%"+filter+"%'";
-        System.out.println(s);
-        TypedQuery<Editor> query = em.createQuery(s,Editor.class);
-        //query.setParameter("filter", filter);
+        
+        TypedQuery<Editor> query = em.createQuery("SELECT e FROM Editor e WHERE e.name LIKE :filter",Editor.class);
+        query.setParameter("filter","%" + filter + "%");
         query.setMaxResults(maxResult);
         return query.getResultList();
     }
     
     public Editor findEditor(int id){
-        System.out.println("call of the data layer _______________________________");
         return em.find(Editor.class,id);
     }
 }

@@ -17,25 +17,37 @@
             <ui:define name="content">
                 <!-- add dialogue ____________________________________________________________________________-->
                 <p:dialog id="addDlg" widgetVar="BookCreateDialog"   resizable="false" header="Add New Book">
+                    
                     <h:form id="createForm">
+                        <p:scrollPanel style="height: 400px; margin-bottom: 5px" mode="native" >
                         <h:panelGrid id="grid" columns="3" style="padding: 30px" >
                             
                             <p:outputLabel value="ISBN" for="isbn"/>
-                            <p:inputText id="isbn" value="#{booksManag.selectedBook.bookId}" placeholder="the title of the book" />
+                            <p:inputText id="isbn" value="#{booksManag.selectedBook.bookId}" placeholder="8888-8888-8888" required="true" />
                             <p:messages for="isbn" />
                             
                             <p:outputLabel value="book title" for="title"/>
-                            <p:inputText id="title" value="#{booksManag.selectedBook.title}" placeholder="the title of the book" />
+                            <p:inputText id="title" value="#{booksManag.selectedBook.title}" placeholder="the title of the book" required="true"/>
                             <p:messages for="title" />
+                            
+                            <p:outputLabel value="book subtitle" for="subtitle"/>
+                            <p:inputText id="subtitle" value="#{booksManag.selectedBook.subtitle}" placeholder="subtitle" required="true" />
+                            <p:messages for="subtitle" />
+                            
+                            <p:outputLabel value="Authors" for="authors" />
+                            <p:autoComplete value="#{booksManag.selectedBook.authorList}" completeMethod="#{booksManag.completeAuthors}"
+                                            var="au" itemLabel="#{au.familyName} #{au.firstName}" 
+                                            converter="#{authorConverter}" itemValue="#{au}"
+                                            forceSelection="true" multiple="true"
+                                            id="authors" placeholder="Authors" required="true" />
+                            <p:messages for="authors" />
 
                             <p:outputLabel value="Editor" for="editor" />
-                            <p:autoComplete value="#{booksManag.selectedBook.editor}" completeMethod="#{booksManag.complete}"
+                            <p:autoComplete value="#{booksManag.selectedBook.editor}" completeMethod="#{booksManag.completeEditors}"
                                             var="ed" itemLabel="#{ed.name}" forceSelection="true"
                                             itemValue="#{ed}" converter="#{editorConverter}"
-                                            id="editor" />
-                                
-                         
-                            <p:messages for="title" />
+                                            id="editor" placeholder="Editors" required="true" />
+                            <p:messages for="editor" />
 
                             <p:outputLabel value="Language" for="language" />
                             <p:selectOneMenu id="language" >
@@ -44,11 +56,11 @@
                             <p:messages for="language" />
 
                             <p:outputLabel value="writing date" for="date" />
-                            <p:calendar id="date" />
+                            <p:calendar id="date" value="#{booksManag.selectedBook.publicationDate}"/>
                             <p:messages for="date" />
 
                             <p:outputLabel value="quantity" for="amount" />
-                            <p:spinner id="amount" value="#{booksManag.selectedBook.quantity}" prefix="" min="1" />
+                            <p:spinner id="amount" value="#{booksManag.selectedBook.quantity}" min="1" required="true"/>
                             <p:messages for="amount" />
 
                             <p:outputLabel value="Price" for="price" />
@@ -64,10 +76,18 @@
                             <p:outputLabel value="Cover" for="cover" />
                             <p:fileUpload id="cover" value="" mode="simple" skinSimple="true"/>
                             <p:messages for="cover" />
-
-                            <p:commandButton value="Add the book" actionListener="#{booksManag.addBook}"/>
+                            
+                            <p:outputLabel value="Description" for="description" />
+                            <p:editor id="description" value="#{booksManag.selectedBook.description}"/>
+                            <p:messages for="description" />
+                            
+                            
                         </h:panelGrid>
-                    </h:form>    
+                        </p:scrollPanel>
+                        <p:commandButton value="Add the book" actionListener="#{booksManag.addBook}" oncomplete="PF('BookCreateDialog').hide()"/>
+                        <p:commandButton value="cancel" onclick="PF('BookCreateDialog').hide()" />
+                    </h:form>
+                        
                 </p:dialog>
 
                 <h2 class="ui-widget-header ui-corner-all">list of existing books</h2>
@@ -94,27 +114,27 @@
                         </f:facet>  
 
 
-                        <p:column headerText="Id" sortBy="" filterBy="">
+                        <p:column headerText="Id" sortBy="#{book.bookId}" filterBy="">
                             <h:outputText value="#{book.bookId}" />
                         </p:column>
-                        <p:column headerText="title" sortBy="" filterBy="">
+                        <p:column headerText="title" sortBy="#{book.title}" filterBy="">
                             <h:outputText value="#{book.title}" />
                         </p:column>
-                        <p:column headerText="Editor" sortBy="" filterBy="">
-                            <h:outputText value="#{book.editor.name}" />
-                        </p:column>
-                        <p:column headerText="SubTitle" sortBy="" filterBy="">
+                        <p:column headerText="SubTitle" sortBy="#{book.subtitle}" filterBy="">
                             <h:outputText value="#{book.subtitle}" />
                         </p:column>
-                        <p:column headerText="Publication Date" sortBy="" filterBy="">
-                            <h:outputText value="#{book.publicationDate}" />
+                        <p:column headerText="Editor" sortBy="#{book.editor.name}" filterBy="">
+                            <h:outputText value="#{book.editor.name}" />
                         </p:column>
-                        <p:column headerText="price" sortBy="" filterBy="">
+                        <p:column headerText="Publication Date" sortBy="#{book.publicationDate}" filterBy="">
+                            <h:outputText value="#{book.publicationDate}" >
+                                <f:convertDateTime dateStyle="long"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="price" sortBy="#{book.price}" filterBy="">
                             <h:outputText value="#{book.price}" />
                         </p:column>
-
-
-                        <p:column headerText="Quanity" sortBy="" filterBy="">
+                        <p:column headerText="Quanity" sortBy="#{book.quantity}" filterBy="">
                             <h:outputText value="#{book.quantity}" />
                         </p:column>
                         <f:facet name="footer">

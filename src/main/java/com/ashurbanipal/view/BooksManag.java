@@ -7,6 +7,7 @@ package com.ashurbanipal.view;
 
 import com.ashurbanipal.controllers.BookController;
 import com.ashurbanipal.controllers.CatalogueController;
+import com.ashurbanipal.entities.Author;
 import com.ashurbanipal.entities.Book;
 import com.ashurbanipal.entities.Editor;
 import com.ashurbanipal.lazyModels.LazyBookDataModel;
@@ -29,22 +30,13 @@ import org.primefaces.event.SelectEvent;
 @ViewScoped
 public class BooksManag implements Serializable{
 
-    Editor editor;
+    
     List<Editor> editors = new ArrayList<Editor>();
 
     List<String> languages = new ArrayList<String>();
 
-    public void submit(){
-        System.out.println("Hello From  submiyt**************************************");
-        System.out.println("Editor :"+ editor);
-    }
-    public Editor getEditor() {
-        return editor;
-    }
 
-    public void setEditor(Editor editor) {
-        this.editor = editor;
-    }
+    
 
     @EJB
     private BookController controller;
@@ -71,7 +63,7 @@ public class BooksManag implements Serializable{
         languages.add("English");
         languages.add("العربية");
         languages.add("françai");
-        editors = catalogueController.getAllEditors();
+        
         
         
     }
@@ -134,13 +126,14 @@ public class BooksManag implements Serializable{
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "The Book successufuly updated"));
     }
 
-    public List<Editor> complete(String query) {
+    public List<Editor> completeEditors(String query) {
         List<Editor> results = controller.getFiltredEditors(query, 10);
-        System.out.println("auto complete___________________________");
         return results;
     }
     
-    
+    public List<Author> completeAuthors(String query) {
+        return controller.getFiltredAuthors(query, 10);
+    }
 
     public LazyBookDataModel getBooks() {
         return books;
