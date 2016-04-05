@@ -10,6 +10,7 @@ import com.ashurbanipal.controllers.CatalogueController;
 import com.ashurbanipal.entities.Author;
 import com.ashurbanipal.entities.Book;
 import com.ashurbanipal.entities.Editor;
+import com.ashurbanipal.entities.Tag;
 import com.ashurbanipal.lazyModels.LazyBookDataModel;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class BooksManag implements Serializable{
     List<Editor> editors = new ArrayList<Editor>();
 
     List<String> languages = new ArrayList<String>();
+    ArrayList<String> tags = new ArrayList<String>();
+    
+    
 
 
     
@@ -96,7 +100,7 @@ public class BooksManag implements Serializable{
         if(selectedBook.getEditor() != null)System.err.println("the editor is not null");
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            controller.addBook(selectedBook);
+            controller.addBook(selectedBook, tags);
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Can't create new Book"));
             return;
@@ -104,10 +108,10 @@ public class BooksManag implements Serializable{
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "New Book successufuly created"));
     }
 
-    public void deleteBook(Book book) {
+    public void deleteBook() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            controller.deleteBook(book);
+            controller.deleteBook(selectedBook);
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Can't delete this Book"));
             return;
@@ -133,6 +137,9 @@ public class BooksManag implements Serializable{
     
     public List<Author> completeAuthors(String query) {
         return controller.getFiltredAuthors(query, 10);
+    }
+    public  List<Tag> completeTag(String query){
+        return controller.getFiltredTag(query, 10);
     }
 
     public LazyBookDataModel getBooks() {
@@ -165,6 +172,14 @@ public class BooksManag implements Serializable{
 
     public void setSelectedBook(Book selectedBook) {
         this.selectedBook = selectedBook;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
 }

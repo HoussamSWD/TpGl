@@ -19,6 +19,7 @@
                 <p:dialog id="addDlg" widgetVar="BookCreateDialog"   resizable="false" header="Add New Book">
                     
                     <h:form id="createForm">
+                        
                         <p:scrollPanel style="height: 400px; margin-bottom: 5px" mode="native" >
                         <h:panelGrid id="grid" columns="3" style="padding: 30px" >
                             
@@ -70,7 +71,12 @@
                             <p:messages for="price" />
 
                             <p:outputLabel value="Tags" for="tags" />
-                            <p:autoComplete id="tags" multiple="tags"></p:autoComplete>
+                            <p:autoComplete id="tags" multiple="true"
+                                            value="#{booksManag.tags}"
+                                            completeMethod="#{booksManag.completeTag}" var="ta"
+                                            itemLabel="#{ta.lable}" itemValue="#{ta.lable}"
+                                            
+                                            ></p:autoComplete>
                             <p:messages for="tags" />
 
                             <p:outputLabel value="Cover" for="cover" />
@@ -84,7 +90,7 @@
                             
                         </h:panelGrid>
                         </p:scrollPanel>
-                        <p:commandButton value="Add the book" actionListener="#{booksManag.addBook}" oncomplete="PF('BookCreateDialog').hide()"/>
+                        <p:commandButton value="Add the book" actionListener="#{booksManag.addBook}" update=":bookForm" oncomplete="PF('BookCreateDialog').hide()"/>
                         <p:commandButton value="cancel" onclick="PF('BookCreateDialog').hide()" />
                     </h:form>
                         
@@ -93,6 +99,7 @@
                 <h2 class="ui-widget-header ui-corner-all">list of existing books</h2>
 
                 <h:form id="bookForm">
+                    <p:growl id="growl" sticky="true" showDetail="true"/>
                     <p:dataTable 
                         id="booksTable" widgetVar="bookTable"
                         value="#{booksManag.books}" var="book"
@@ -138,9 +145,9 @@
                             <h:outputText value="#{book.quantity}" />
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus" actionListener="#{booksManag.prepareNew}"  value="Create"  update="" oncomplete="PF('BookCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus" actionListener="#{booksManag.prepareNew}"  value="Add"  update="" oncomplete="PF('BookCreateDialog').show()"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Edit" update="" oncomplete="PF('BookEditDialog').show()" disabled="#{empty booksManag.selectedBook}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash" value="Delete"  update="" disabled="#{empty booksManag.selectedBook}" />
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" value="Delete" actionListener="#{booksManag.deleteBook}"  update=":bookForm" disabled="#{empty booksManag.selectedBook}" />
                         </f:facet>
                     </p:dataTable>
 
