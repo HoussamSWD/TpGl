@@ -12,33 +12,35 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author swd
+ * @author benboubekeur
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", catalog = "Ashurbanipal", schema = "")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
     @NamedQuery(name = "User.findByFamilyName", query = "SELECT u FROM User u WHERE u.familyName = :familyName"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender")})
+    @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender"),
+    @NamedQuery(name = "User.findBySalt", query = "SELECT u FROM User u WHERE u.salt = :salt")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
@@ -56,18 +58,17 @@ public class User implements Serializable {
     private String password;
     @Column(name = "gender")
     private Character gender;
-    @ManyToMany(mappedBy = "userList")
-    private List<Permission> permissionList;
+    @Size(max = 100)
+    @Column(name = "salt")
+    private String salt;
     @OneToMany(mappedBy = "userId")
-    private List<Adress> DeliveryAdressList;
+    private List<Adress> adressList;
+    @JoinColumn(name = "address_id", referencedColumnName = "adress_id")
+    @ManyToOne
+    private Adress address = new Adress();
     @JoinColumn(name = "groupe_id", referencedColumnName = "groupe_id")
     @ManyToOne
     private Groupe groupe;
-    @JoinColumn(name = "address_id", referencedColumnName = "adress_id")
-    @ManyToOne
-    private Adress billingAdress;
-    @OneToMany(mappedBy = "user")
-    private List<Command> commandList;
 
     public User() {
     }
@@ -116,20 +117,29 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public List<Permission> getPermissionList() {
-        return permissionList;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setPermissionList(List<Permission> permissionList) {
-        this.permissionList = permissionList;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
-    public List<Adress> getDeliveryAdressList() {
-        return DeliveryAdressList;
+    @XmlTransient
+    public List<Adress> getAdressList() {
+        return adressList;
     }
 
-    public void setDeliveryAdressList(List<Adress> DeliveryAdressList) {
-        this.DeliveryAdressList = DeliveryAdressList;
+    public void setAdressList(List<Adress> adressList) {
+        this.adressList = adressList;
+    }
+
+    public Adress getAddress() {
+        return address;
+    }
+
+    public void setAddress(Adress address) {
+        this.address = address;
     }
 
     public Groupe getGroupe() {
@@ -138,22 +148,6 @@ public class User implements Serializable {
 
     public void setGroupe(Groupe groupe) {
         this.groupe = groupe;
-    }
-
-    public Adress getBillingAdress() {
-        return billingAdress;
-    }
-
-    public void setBillingAdress(Adress billingAdress) {
-        this.billingAdress = billingAdress;
-    }
-
-    public List<Command> getCommandList() {
-        return commandList;
-    }
-
-    public void setCommandList(List<Command> commandList) {
-        this.commandList = commandList;
     }
 
     @Override
@@ -178,7 +172,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ashurbanipal.entities.User[ email=" + email + " ]";
+        return "com.ashurbanipal.one.User[ email=" + email + " ]";
     }
-    
+
 }

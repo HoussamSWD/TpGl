@@ -10,39 +10,34 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
- * this class is used for security 
- * used to hash the passwords
+ * this class is used for security used to hash the passwords
+ *
  * @author swd
  */
 public class SecurityUtil {
-    
-    private static String HashUsingSHA_256(String passwordToHash, String salt)
-    {
+
+    public static String HashUsingSHA_256(String passwordToHash, String salt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(salt.getBytes());
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
+            for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        } 
-        catch (NoSuchAlgorithmException e) 
-        {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return generatedPassword;
     }
-     
-      private static String getSalt() throws NoSuchAlgorithmException
-    {
+
+    public static String getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return salt.toString();
     }
-    
+
 }

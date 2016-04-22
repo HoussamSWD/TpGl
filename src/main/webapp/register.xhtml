@@ -3,54 +3,81 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
-        
+
         <ui:composition template="./templates/clientTemplate.xhtml">
             <ui:define name="title">Register</ui:define>
-            
-            <ui:define name="content">
+
+            <ui:define name="content" id="content">
                 <h:form>
-                    
+
+                    <p:growl id="growl" sticky="true" showDetail="true" life="1000" />
+
                     <h:panelGrid columns="3"  cellpadding="5" style="padding: 30px">
                         <p:outputLabel value="Family name:" for="family_name" />
-                        <p:inputText id="family_name" placeholder="Your family name" />
+                        <p:inputText id="family_name" placeholder="Your family name" value="#{userRegistartion.user.familyName}" />
                         <p:messages for="family_name" />
-                        
+
                         <p:outputLabel value="First name:" for="first_name" />
-                        <p:inputText id="first_name" placeholder="first name" />
+                        <p:inputText id="first_name" placeholder="first name" value="#{userRegistartion.user.firstName}"/>
                         <p:messages for="first_name" />
-                        
+
                         <p:outputLabel value="Email:" for="email" />
-                        <p:inputText id="email" placeholder="Email" />
+                        <p:inputText id="email" placeholder="Email"  value="#{userRegistartion.user.email}"/>
                         <p:messages for="email" />
-                        
+
+                        <p:outputLabel value="Gender : " for="gender"/>
+                        <p:selectOneRadio id="gender" value="#{userRegistartion.user.gender}" >
+                            <f:selectItem itemLabel="Male" itemValue="M"/>
+                            <f:selectItem itemLabel="Female" itemValue="F"/>
+                        </p:selectOneRadio>
+                        <p:spacer></p:spacer>
+
                         <p:outputLabel value="Password:" for="password" />
                         <p:password id="password" match="confirm" placeholder="Password" promptLabel="Password strength"
-                                        weakLabel="Weak" goodLabel="Good" strongLabel="Strong" feedback= "true"/>
+                                    weakLabel="Weak" goodLabel="Good" strongLabel="Strong" feedback= "true" 
+                                    value="#{userRegistartion.user.password}"/>
                         <p:messages for="password" />
-                        
+
                         <p:outputLabel value="Confirm password:" for="confirm" />
-                        <p:password id="confirm" placeholder="confirm password"/>
+                        <p:password id="confirm"  placeholder="confirm password" value="#{userRegistartion.user.password}"/>
                         <p:messages for="confirm" />
-                        
-                        <p:outputLabel value="Subscribe to the newsletter" for="newsletter" />
-                        <p:selectBooleanCheckbox id="newsletter" />
-                        <p:messages for="newsletter" />
-                        
-                        <p:outputLabel value="accept the term of use" for="term_of_use" />
-                        <p:selectBooleanCheckbox id="term_of_use" />
-                        <p:messages for="term_of_use" />
-                        
-                        <p:outputLabel value="confirm that you are not a robot" for="captcha" />
-                        <p:captcha id="captcha" />
-                        <p:messages for="captcha" />
-                        
-                        <p:commandButton value="Register" />
-                        
+
+
+                        <p:outputLabel value="Country" for="countries"/>
+                        <p:selectOneMenu id="countries" value="#{userRegistartion.user.address.country}" converter="#{countryConverter}" >
+                            <p:ajax update="cities"/>
+                            <f:selectItems value="#{userRegistartion.countries}" itemValue="#{country}"   var="country"   itemLabel="#{country.countryId}" />
+                        </p:selectOneMenu>
+                        <p:message for="countries"/>
+
+
+                        <p:outputLabel value="City" for="cities"/>
+                        <p:selectOneMenu id="cities" value="#{userRegistartion.user.address.city}" converter="#{cityConverter}">
+
+                            <f:selectItems value="#{userRegistartion.user.address.country.cityList}"    var="city" itemValue="#{city}"
+                                           itemLabel="#{city.cityName}" />
+                        </p:selectOneMenu>
+                        <p:message for="cities"/>
+
+
+
+
+                        <!--List of Cities -->
+                        <!--Rendred only one country is selected-->
+
+
+                        <!--<p:messages showDetail="true"/>-->
+                        <!-- <p:captcha label="Captcha" />-->
+
+
+                        <p:commandButton value="Register" action="#{userRegistartion.addUser()}"  update="growl"/>
+
                     </h:panelGrid>
-                    
+
                 </h:form>
             </ui:define>
 

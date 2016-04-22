@@ -6,6 +6,7 @@
 package com.ashurbanipal.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,18 +21,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author swd
+ * @author benboubekeur
  */
 @Entity
-@Table(name = "adress")
+@Table(name = "adress", catalog = "Ashurbanipal", schema = "")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Adress.findAll", query = "SELECT a FROM Adress a"),
     @NamedQuery(name = "Adress.findByAdressId", query = "SELECT a FROM Adress a WHERE a.adressId = :adressId"),
-    @NamedQuery(name = "Adress.findByCountry", query = "SELECT a FROM Adress a WHERE a.country = :country"),
-    @NamedQuery(name = "Adress.findByCity", query = "SELECT a FROM Adress a WHERE a.city = :city"),
     @NamedQuery(name = "Adress.findByStreet", query = "SELECT a FROM Adress a WHERE a.street = :street")})
 public class Adress implements Serializable {
 
@@ -41,22 +43,20 @@ public class Adress implements Serializable {
     @Basic(optional = false)
     @Column(name = "adress_id")
     private Integer adressId;
-    @Size(max = 40)
-    @Column(name = "country")
-    private String country;
-    @Size(max = 40)
-    @Column(name = "city")
-    private String city;
     @Size(max = 255)
     @Column(name = "street")
     private String street;
     @JoinColumn(name = "user_id", referencedColumnName = "email")
     @ManyToOne
     private User userId;
-    @OneToMany(mappedBy = "billingAdress")
-    private List<User> userList;
+    @JoinColumn(name = "city", referencedColumnName = "city_id")
+    @ManyToOne
+    private City city;
+    @JoinColumn(name = "country", referencedColumnName = "country_id")
+    @ManyToOne
+    private Country country;
     @OneToMany(mappedBy = "address")
-    private List<Command> commandList;
+    private List<User> userList = new ArrayList<User>();
 
     public Adress() {
     }
@@ -71,22 +71,6 @@ public class Adress implements Serializable {
 
     public void setAdressId(Integer adressId) {
         this.adressId = adressId;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getStreet() {
@@ -105,20 +89,29 @@ public class Adress implements Serializable {
         this.userId = userId;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    @XmlTransient
     public List<User> getUserList() {
         return userList;
     }
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
-    }
-
-    public List<Command> getCommandList() {
-        return commandList;
-    }
-
-    public void setCommandList(List<Command> commandList) {
-        this.commandList = commandList;
     }
 
     @Override
@@ -143,7 +136,7 @@ public class Adress implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ashurbanipal.entities.Adress[ adressId=" + adressId + " ]";
+        return "com.ashurbanipal.one.Adress[ adressId=" + adressId + " ]";
     }
-    
+
 }
