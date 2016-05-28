@@ -80,7 +80,7 @@
                             <p:messages for="tags" />
 
                             <p:outputLabel value="Cover" for="cover" />
-                            <p:fileUpload id="cover" value="" mode="simple" skinSimple="true"/>
+                            <p:fileUpload id="cover" value="#{booksManag.cover}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="100000" mode="simple" skinSimple="true"/>
                             <p:messages for="cover" />
                             
                             <p:outputLabel value="Description" for="description" />

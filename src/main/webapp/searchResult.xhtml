@@ -25,26 +25,39 @@
                 </style>
                 
                 
-                
-                <c:forEach begin="1" end="10">
+                <h:form id="booksList">
+               
                    
-                    
-                    <p:panel id="basic" header="Book title" footer="Book Details" style="margin-bottom:20px">
+                    <p:dataTable
+                        value="#{search.books}"
+                        var="book"
+                        >
+                        <p:column>
+                            
+                            <p:panel id="basic" header="#{book.title}" footer="footer hna" style="margin-bottom:20px">
                         <h:panelGrid columns="3" style="width:100%;height: 100%" columnClasses="logo,detail">
-                            <img src="images/agatha.jpg" alt="" width="100"/>
+                            <a href="book_details.xhtml?bookId=#{book.bookId}">
+                                <img src="images/agatha.jpg" alt="" width="100"/>
+                            </a>
                             <p:outputPanel style="padding: 20px">
-                                <h:outputText value="description" />
-                                <h:outputText value=" and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids " />
+                                
+                                <h:outputText value="#{book.description}" />
+                                
                             </p:outputPanel>
                             <p:outputPanel class="purchas">
-                                <h:outputText value="Price = 20$"/><br/>
+                                <h:outputText value="#{book.price} $"/><br/>
                                 Rating <p:rating value="4" style="display: inline-block; margin-left: 50px"/>
-                                <p:button value="Add to chart" icon="ui-icon-star">
-                                </p:button>
+                                
+                                <p:commandButton value="add to chart" icon="ui-icon-star" actionListener="#{search.addtochart()}"/>
                             </p:outputPanel>
+                            
                         </h:panelGrid>
                     </p:panel>
-                </c:forEach>
+                        </p:column>
+                    </p:dataTable>
+                    
+                
+                    </h:form>
             </ui:define>
 
         </ui:composition>

@@ -71,12 +71,12 @@ public class BookController {
             System.err.println("the relation from the other side");
             author.getBookList().add(book);
         }
-        ArrayList<Tag> managedTags = handelTags(tags);
+        /*ArrayList<Tag> managedTags = handelTags(tags);
         for (Tag managedTag : managedTags) {
             managedTag.getBookList().add(book);
             em.merge(managedTag);
         }
-        book.setTagList(managedTags);
+        book.setTagList(managedTags);*/
         try {
             System.err.println("****************************** the persist");
             
@@ -95,6 +95,11 @@ public class BookController {
         //}
     }
 
+    /**
+     *  this function delete a book from the data base
+     * @param book
+     * @throws ObjectNotFoundException
+     */
     public void deleteBook(Book book) throws ObjectNotFoundException {
 
         Book b = em.find(Book.class, book.getBookId());
@@ -106,11 +111,25 @@ public class BookController {
         }
 
     }
+    
+    public List<Book> simpleSearchForBooks(String keyWord){
+        TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE "
+                + "b.title like :keyWord "
+                + "or b.subtitle like :keyWord",Book.class);
+        
+        query.setParameter("keyWord", "%"+keyWord.trim()+"%");
+        return query.getResultList();
+    }
 
     public void updateBook(Book book) {
 
         em.merge(book);
+        
 
+    }
+    public Book findBook(String bookId){
+        Book book = em.find(Book.class, bookId);
+        return book;
     }
 
     public List<Editor> getFiltredEditors(String filter, int maxResult) {

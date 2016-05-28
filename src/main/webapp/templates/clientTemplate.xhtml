@@ -80,7 +80,8 @@
                                 </h:panelGrid>
                             </p:dialog>
 
-                            <p:inputText style="margin-right:10px" placeholder="Search"/>
+                            <p:inputText style="margin-right:10px" placeholder="Search" value="#{search.keyWord}"/>
+                            <p:commandButton value="go" action="#{search.simpleSearch()}"/>
 
 
                         </f:facet>
@@ -91,9 +92,10 @@
                 <h:form>
                     <p:menu style="height: 95%">
                         <p:submenu label="Categories">
-                            <p:menuitem value="computer siences" />
-                            <p:menuitem value="Technologie" />
-                            <p:menuitem value="somthing" />
+                            <c:forEach items="#{home.themes}" var="theme">
+                                <p:menuitem value="#{theme.name}"/>
+                            </c:forEach>
+                           
                         </p:submenu>
                         <p:submenu label="last boock">
                             <p:menuitem value="computer siences" />
@@ -106,7 +108,7 @@
 
             <p:layoutUnit position="center" size="100">
                 <ui:insert name="content">Content password</ui:insert>
-            </p:layoutUnit>
+            </p:layoutUnit>     
 
             <ui:insert name="addLayoutUnit"></ui:insert>
         </p:layout>
